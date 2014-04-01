@@ -19,6 +19,12 @@ hammer(ui.top).on('release', function(){
   if(!wasDragging) return
   wasDragging = false
   var el = this
+  this.classList.add('swipe')
+  this.addEventListener('transitionend', function(evt){
+    this.classList.remove('swipe')
+    top = parseFloat(getCSS(this, 'top'))
+  }) 
+  
   if(parseFloat(getCSS(el, 'top')) < minTop / 2) el.style.top = minTop + 'px'  
   else el.style.top = '0px'
   top = parseFloat(getCSS(el, 'top'))
@@ -34,7 +40,6 @@ function dragdown(evt){
     var delta = evt.gesture.deltaY
     if(Math.abs(delta) > maxDelta) return
     else{
-      console.log(top, delta)
       this.style.top = top + delta + 'px' 
     }
   }
@@ -57,6 +62,7 @@ function swipedown(evt){
   top = 0
   this.addEventListener('transitionend', function(evt){
     this.classList.remove('swipe')
+    top = parseFloat(getCSS(this, 'top'))
   }) 
 }
 
